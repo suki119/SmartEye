@@ -21,11 +21,15 @@ function AddPeople(props) {
     const history = useHistory();
     const [form] = Form.useForm();
     const [user, setUser] = useState({});
-
+    const [productId, setProductId] = useState('');
+ 
     useEffect(() => {
         const lUser = JSON.parse(localStorage.getItem("user"));
         if (lUser) {
           setUser(lUser);
+          setProductId(lUser.productId);
+        }else{
+            history.push(`/login`);
         }
       
       }, []);
@@ -71,7 +75,7 @@ function AddPeople(props) {
             >
                 <Divider orientation="left">Add People Details</Divider>
 
-                <Form form={form} onFinish={onFinish}    labelCol={{ span: 24 }}
+                <Form form={form} onFinish={onFinish}    labelCol={{ span: 24 }} initialValues={{ personId: productId }}
                             wrapperCol={{ span: 24 }}
                             layout="vertical" style={{ maxWidth: '400px', margin: '0 auto' }} >
                     <Item
@@ -82,13 +86,13 @@ function AddPeople(props) {
                         <Input prefix={<UserOutlined />} />
                     </Item>
 
-                    <Item
+                    {/* <Item
                         name="personId"
                         label="Product ID"
                         rules={[{ required: true, message: "Please enter the person's ID" }]}
                     >
-                        <Input style={{float:'right'}} prefix={<IdcardOutlined />} />
-                    </Item>
+                        <Input value={user.productId} style={{float:'right'}} prefix={<IdcardOutlined />} />
+                    </Item> */}
 
                     <Item
                         name="personImage"
@@ -105,12 +109,12 @@ function AddPeople(props) {
                                 return false;
                             }}
                         >
-                            <Button icon={<UploadOutlined />}></Button>
+                            <Button  icon={<UploadOutlined />}></Button>
                         </Upload>
                     </Item>
 
                     <Item>
-                        <Button type="primary" htmlType="submit">
+                        <Button style={{backgroundColor:'#5b2f84'}} type="primary" htmlType="submit">
                             Add Person
                         </Button>
                     </Item>

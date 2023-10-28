@@ -5,7 +5,7 @@ import { items } from './sidebarData';
 
 function SidebarMenu({isDarkMode}) {
   return (
-    <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" style={{background: isDarkMode ? 'var(--content-container-bg-dark)' : '#5b2f84'}}>
+    <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" style={{background: isDarkMode ? '#5b2f84' : '#5b2f84'}}>
       {items.map((item) =>
         item.children ? (
           <Menu.SubMenu key={item.key} icon={item.icon} title={item.label}>

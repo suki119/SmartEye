@@ -31,7 +31,7 @@ function Sidebar({collapsed, onCollapse ,isDarkMode}) {
             transition: 'width 0.3s ease',
             scrollbarwidth: "thin",
             scrollbarcolor: "#ccc #fff",
-            background: isDarkMode ? 'var(--content-container-bg-dark)' : '#5b2f84',
+            background: isDarkMode ? '#5b2f84' : '#5b2f84',
           }}>
   
           <div className="demo-logo-vertical">
