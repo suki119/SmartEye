@@ -1,6 +1,6 @@
 export let appURLs = {
-   web: 'http://localhost:8000/',
-  //web: 'https://coloration.onrender.com/'
+  //  web: 'http://localhost:8000/',
+  web: 'https://smart-eye.onrender.com/'
 }
 
 
@@ -16,7 +16,13 @@ export const webAPI = {
 
   /************************ Configaration API *********************************/
   addConfigarationDetails: 'api/configaration/addConfigarationDetails',
-  getProductConfigarationByProductID :'api/configaration/getConfigDataByID/'
+  getProductConfigarationByProductID :'api/configaration/getConfigDataByID/',
 
+  
+  /************************ Account API *********************************/
+  addImage: 'api/image/addImage',
+  getallImageByID:'api/image/getallImageByID/',
+  deleteImageDetails:'api/image/deleteImageDetails/',
+  updateImageDetails : 'api/image/updateImageDetails/'
 
 }
