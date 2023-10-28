@@ -120,17 +120,19 @@ function ViewAllImages(props) {
             title: 'Actions',
             key: 'actions',
             render: (text, record) => (
-                <span>
-                    <Button type="primary" htmlType="submit" className="common-save-btn common-btn-color" style={{ marginTop: '16px', backgroundColor: '#5b2f84' }} onClick={() => handleUpdate(record)}>Update</Button>
-                    <Button type="default" style={{
-                        marginLeft: '8px',
-                        backgroundcolor: props.isDarkMode ? 'var(--cancel-btn-bg-dark)' : 'var(--cancel-btn-bg-light)',
-                        color: props.isDarkMode ? 'var( --cancel-btn-color-dark)' : 'var(--cancel-btn-color-light)'
-
-                    }} onClick={() => handleDelete(record)}>Delete</Button>
-                </span>
+                <div style={{
+                    display: 'flex',
+                    flexDirection: window.innerWidth > 768 ? 'row' : 'column',
+                    alignItems: 'center',
+                    gap: '10px'
+                }}>
+                    <Button type="primary" htmlType="submit" className="common-save-btn common-btn-color" onClick={() => handleUpdate(record)}>Update</Button>
+                    <Button type="default" style={{ margin: '0', backgroundColor: props.isDarkMode ? 'var(--cancel-btn-bg-dark)' : 'var(--cancel-btn-bg-light)', color: props.isDarkMode ? 'var(--cancel-btn-color-dark)' : 'var(--cancel-btn-color-light)' }} onClick={() => handleDelete(record)}>Delete</Button>
+                </div>
             ),
-        },
+        }
+        
+        
     ];
 
 
@@ -184,6 +186,7 @@ function ViewAllImages(props) {
                         dataSource={data}
                         loading={loading}
                         rowKey={(record) => record._id}
+                        scroll={{ x: true }}
                     />
                 ) : (
                     <div>No data available.</div>
