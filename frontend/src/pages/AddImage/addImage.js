@@ -10,6 +10,7 @@ import {
     Upload,
     message,
 } from 'antd';
+import { appURLs, webAPI } from '../../utils/api';
 
 import { EyeFilled, EditFilled, UploadOutlined, PlusOutlined , UserOutlined ,IdcardOutlined} from '@ant-design/icons';
 import { Link, useHistory } from "react-router-dom";
@@ -37,7 +38,7 @@ function AddPeople(props) {
         formData.append('image_data', values.personImage.file); // Use originFileObj to access the actual file object
 
         axios
-            .post('http://localhost:8000/api/image/addImage', formData, {
+            .post(appURLs.web + webAPI.addImage, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

@@ -13,6 +13,7 @@ import {
     Image
 } from 'antd';
 import Swal from 'sweetalert2'; // Import SweetAlert
+import { appURLs, webAPI } from '../../utils/api';
 
 const { Content } = Layout;
 
@@ -35,7 +36,7 @@ function ViewAllImages(props) {
         getProductId();
         const User = JSON.parse(localStorage.getItem("user"));
         // Fetch data from your server
-        axios.get(`http://localhost:8000/api/image/getallImageByID/${User.productId}`)
+        axios.get(`${appURLs.web}${webAPI.getallImageByID}${User.productId}`)
             .then((response) => {
                 console.log('API Response:', response.data);
                 setData(response.data.data); // Assuming the response is an array of image data
@@ -69,7 +70,7 @@ function ViewAllImages(props) {
         }).then((result) => {
             if (result.isConfirmed) {
                 // Delete the image using the _id
-                axios.delete(`http://localhost:8000/api/image/deleteImageDetails/${record._id}`)
+                axios.delete(`${appURLs.web}${webAPI.deleteImageDetails}${record._id}`)
                     .then((response) => {
                         Swal.fire('Deleted!', 'Your image has been deleted.', 'success');
                         // Remove the deleted image from the state (data)
@@ -135,10 +136,10 @@ function ViewAllImages(props) {
         setData(updatedData);
 
         // Send a request to your server to update the image_name
-        axios.put(`http://localhost:8000/api/image/updateImageDetails/${editedRecord._id}`, {
+        axios.put(`${appURLs.web}${webAPI.updateImageDetails}${editedRecord._id}`, {
             image_name: values.image_name,
-          
         })
+        
             .then((response) => {
                 console.log('Image name updated:', response.data);
             })
