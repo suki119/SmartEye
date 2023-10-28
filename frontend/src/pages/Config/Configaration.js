@@ -8,11 +8,13 @@ import femaleAudioSinhala from '../../Audio/introduction_sin_f.mp3';
 import { appURLs, webAPI } from '../../utils/api';
 import Swal from 'sweetalert2'
 import axios from 'axios';
+import { Link, useHistory } from "react-router-dom";
 
 
 const { Group } = Radio;
 
 function Configuration(props) {
+    const history = useHistory();
     const [selectedLanguage, setSelectedLanguage] = useState('en');
     const [audioPlaying, setAudioPlaying] = useState(false);
     const audioRef = useRef(null);
@@ -146,6 +148,8 @@ function Configuration(props) {
         if (lUser) {
             setUser(lUser);
             getProductData(lUser);
+        }else{
+            history.push(`/login`);
         }
 
     }, []);
@@ -185,7 +189,7 @@ function Configuration(props) {
                                     <Form.Item label={<span style={{ fontWeight: '500' }}>Test the Audio</span>}>
                                         {!audioPlaying && (
                                             <Button
-                                                style={{ marginLeft: '23px' }}
+                                                style={{ marginLeft: '23px', backgroundColor:'#5b2f84', }}
                                                 type="primary"
                                                 icon={<PlayCircleOutlined />} // Use Ant Design's play icon
                                                 onClick={handleTestAudio}
@@ -196,6 +200,7 @@ function Configuration(props) {
                                             <Button
 
                                                 type="default" style={{
+                                                    
                                                     marginLeft: '23px',
                                                     backgroundcolor: props.isDarkMode ? 'var(--cancel-btn-bg-dark)' : 'var(--cancel-btn-bg-light)',
                                                     color: props.isDarkMode ? 'var( --cancel-btn-color-dark)' : 'var(--cancel-btn-color-light)'
@@ -221,7 +226,7 @@ function Configuration(props) {
                             </div>
                             <Form.Item>
                                 <Button
-                                    style={{ marginTop: '20px' }}
+                                    style={{ marginTop: '20px',backgroundColor:'#5b2f84' }}
                                     type="primary" htmlType="submit"
                                     icon={<SaveOutlined />} // Use Ant Design's save icon
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import { Layout, ConfigProvider } from 'antd';
+import { Layout, ConfigProvider , theme } from 'antd';
 import Sidebar from './component/sidebar';
 import AppHeader from './component/Hedder/Header';
 import CustomRoute from './utils/CustomRoute ';
@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage'; // Import your Login Page component h
 import accountMain from './pages/account/accountMain';
 import productListMain from './pages/product/productListMain';
 import Configaration from './pages/Config/Configaration';
+import { ThemeProvider } from 'antd';
 
 const { Header, Footer } = Layout;
 
@@ -18,6 +19,7 @@ function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { defaultAlgorithm, darkAlgorithm } = theme;
 
   useEffect(() => {
     const lUser = JSON.parse(localStorage.getItem("user"));
@@ -95,7 +97,9 @@ function App() {
 
   return (
     <Router>
-      <ConfigProvider>
+      <ConfigProvider theme={{
+        algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,
+      }}>
         <Layout>
           {isAuthenticated ? renderMainContent : renderLoginContent}
           {!isAuthenticated && <Redirect to="/login" />}

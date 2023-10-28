@@ -10,10 +10,12 @@ import {
     Modal,
     Form,
     Input,
-    Image
+    Image,
+    Spin // Import Spin component from Ant Design
 } from 'antd';
 import Swal from 'sweetalert2'; // Import SweetAlert
 import { appURLs, webAPI } from '../../utils/api';
+import { Link, useHistory } from "react-router-dom";
 
 const { Content } = Layout;
 
@@ -24,18 +26,26 @@ function ViewAllImages(props) {
     const [editedRecord, setEditedRecord] = useState({});
     const [form] = Form.useForm();
     const [user, setUser] = useState({});
+    const history = useHistory();
 
-    function getProductId(){
+    // Loading state for the spinner
+    const [loadingImages, setLoadingImages] = useState(true);
 
+    function getProductId() {
         const User = JSON.parse(localStorage.getItem("user"));
-        setUser(User)
+        if (User) {
+            setUser(User);
+        } else {
+            history.push(`/login`);
+        }
+
     }
 
     useEffect(() => {
-
         getProductId();
         const User = JSON.parse(localStorage.getItem("user"));
-        // Fetch data from your server
+        setLoadingImages(true); // Set loading state to true while fetching data
+
         axios.get(`${appURLs.web}${webAPI.getallImageByID}${User.productId}`)
             .then((response) => {
                 console.log('API Response:', response.data);
@@ -46,6 +56,7 @@ function ViewAllImages(props) {
                 message.error('Failed to fetch image data');
             })
             .finally(() => {
+                setLoadingImages(false); // Set loading state to false when data fetching is done
                 setLoading(false);
             });
     }, []);
@@ -69,11 +80,9 @@ function ViewAllImages(props) {
             confirmButtonText: 'Yes, delete it!',
         }).then((result) => {
             if (result.isConfirmed) {
-                // Delete the image using the _id
                 axios.delete(`${appURLs.web}${webAPI.deleteImageDetails}${record._id}`)
                     .then((response) => {
                         Swal.fire('Deleted!', 'Your image has been deleted.', 'success');
-                        // Remove the deleted image from the state (data)
                         setData(data.filter((item) => item._id !== record._id));
                     })
                     .catch((error) => {
@@ -112,34 +121,31 @@ function ViewAllImages(props) {
             key: 'actions',
             render: (text, record) => (
                 <span>
-                    <Button type="primary" htmlType="submit" className="common-save-btn common-btn-color" style={{ marginTop: '16px' }} onClick={() => handleUpdate(record)}>Update</Button>
+                    <Button type="primary" htmlType="submit" className="common-save-btn common-btn-color" style={{ marginTop: '16px', backgroundColor: '#5b2f84' }} onClick={() => handleUpdate(record)}>Update</Button>
                     <Button type="default" style={{
-                                        marginLeft: '8px',
-                                        backgroundcolor: props.isDarkMode ? 'var(--cancel-btn-bg-dark)' : 'var(--cancel-btn-bg-light)',
-                                        color: props.isDarkMode ? 'var( --cancel-btn-color-dark)' : 'var(--cancel-btn-color-light)'
+                        marginLeft: '8px',
+                        backgroundcolor: props.isDarkMode ? 'var(--cancel-btn-bg-dark)' : 'var(--cancel-btn-bg-light)',
+                        color: props.isDarkMode ? 'var( --cancel-btn-color-dark)' : 'var(--cancel-btn-color-light)'
 
-                                    }} onClick={() => handleDelete(record)}>Delete</Button>
+                    }} onClick={() => handleDelete(record)}>Delete</Button>
                 </span>
             ),
         },
     ];
 
+
     const updateImageName = (values) => {
-        // Update the image_name using the _id of the record
         const updatedData = data.map((item) =>
             item._id === editedRecord._id
                 ? { ...item, image_name: values.image_name }
                 : item
         );
 
-        // Update the data in the state
         setData(updatedData);
 
-        // Send a request to your server to update the image_name
         axios.put(`${appURLs.web}${webAPI.updateImageDetails}${editedRecord._id}`, {
             image_name: values.image_name,
         })
-        
             .then((response) => {
                 console.log('Image name updated:', response.data);
             })
@@ -168,7 +174,11 @@ function ViewAllImages(props) {
             >
                 <Divider orientation="left">All Images</Divider>
 
-                {data.length > 0 ? (
+                {loadingImages ? ( // Conditionally render spinner while loading images
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px', textAlign: 'center' }}>
+                        <Spin size="large" tip="Images Loading..." />
+                    </div>
+                ) : data.length > 0 ? (
                     <Table
                         columns={columns}
                         dataSource={data}
