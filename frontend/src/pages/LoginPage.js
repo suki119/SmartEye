@@ -1,19 +1,18 @@
-import React, { Component, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button, Row, Col, Card } from 'antd';
 import axios from 'axios';
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-const LoginPage = ({setIsAuthenticated}) => {
+const LoginPage = ({ setIsAuthenticated }) => {
     const [form] = Form.useForm();
     const history = useHistory();
-    
+
     useEffect(() => {
         localStorage.setItem("user", JSON.stringify(null))
     }, []);
 
     const onFinish = (values) => {
-
-
+       
 
         if (values.password === '1') {
 
@@ -39,9 +38,12 @@ const LoginPage = ({setIsAuthenticated}) => {
 
     return (
         <div style={{ background: 'linear-gradient(to right, #462e84, #ff7eb3)' }}>
-            <Row justify="center" align="middle" style={{ height: '100vh' }}>
-                <Col span={8}>
-                    <Card style={{ borderRadius: 10, width: '100%' }}>
+            <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
+                <Col xs={20} sm={16} md={16} lg={12} xl={8}>
+                    <Card style={{ borderRadius: 10, width: '100%', padding: '5px' }}>
+                        <div style={{ marginBottom: 10}}>
+                            <h2 style={{ color: 'black', textAlign: 'center',fontFamily:'math' }}>Add Colors to Your Vision</h2>
+                        </div>
                         <img
                             style={{ width: '100%', marginBottom: 16 }}
                             src="https://res.cloudinary.com/colouration/image/upload/v1697583125/ideogram_3_q970bm.jpg"
@@ -53,7 +55,7 @@ const LoginPage = ({setIsAuthenticated}) => {
                             layout="vertical"
                         >
                             <Form.Item
-                                label="Product ID"
+                                label={<span style={{ fontWeight: '500' }}>Product ID</span>}
                                 name="productId"
                                 rules={[{ required: true, message: 'Please enter your Product ID' }]}
                             >
@@ -61,7 +63,7 @@ const LoginPage = ({setIsAuthenticated}) => {
                             </Form.Item>
 
                             <Form.Item
-                                label="Password"
+                               label={<span style={{ fontWeight: '500' }}>Password</span>}
                                 name="password"
                                 rules={[{ required: true, message: 'Please enter your password' }]}
                             >
@@ -69,7 +71,7 @@ const LoginPage = ({setIsAuthenticated}) => {
                             </Form.Item>
 
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+                                <Button type="primary" htmlType="submit" style={{ width: '100%',backgroundColor:'#5b2f84',fontWeight:'500' }}>
                                     Login
                                 </Button>
                             </Form.Item>
